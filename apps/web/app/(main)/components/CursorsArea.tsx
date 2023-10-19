@@ -27,6 +27,10 @@ export function CursorsArea({ socket, initialUserPositions = [], addUserIfMissin
       return [];
     }
 
+    if (initialUserPositions.some(({ user }) => user.username === userAuthenticated?.username)) {
+      return initialUserPositions;
+    }
+
     const userPositions = [...initialUserPositions];
 
     userPositions.push({
