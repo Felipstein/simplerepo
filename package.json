@@ -2,9 +2,23 @@
   "name": "simplerepo",
   "version": "1.0.0",
   "license": "MIT",
+  "scripts": {
+    "dev": "concurrently \"yarn dev:server\" \"yarn dev:web\"",
+    "dev:server": "yarn workspace @simplerepo/server dev",
+    "dev:web": "yarn workspace @simplerepo/web dev",
+    "build": "yarn build:server && yarn build:web",
+    "build:server": "yarn workspace @simplerepo/server build",
+    "build:web": "yarn workspace @simplerepo/web build",
+    "start": "concurrently \"yarn start:server\" \"yarn start:web\"",
+    "start:server": "yarn workspace @simplerepo/server start",
+    "start:web": "yarn workspace @simplerepo/web start"
+  },
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
-  "private": true
+  "private": true,
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
 }

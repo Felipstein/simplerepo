@@ -25,65 +25,46 @@ Real-Time Cursor Tracker is an innovative test project designed to track the cur
    git clone https://github.com/Felipstein/simplerepo.git
    ```
 
-### Web
-1. Navigate to the web directory:
-   ```
-   cd apps/web
-   ```
+## Setup & Running with Monorepo Scripts
 
-2. Install the dependencies:
+You can build and run both the web and server applications using the monorepo's central scripts.
+
+1. Install the dependencies:
    ```
    yarn
    ```
 
-3. Create a `.env.local` file in the root of the web directory. Specify the server's URL:
-   ```
-   NEXT_PUBLIC_SERVER_URL=[YOUR_SERVER_URL]
-   ```
+2. Create the necessary environment files as specified in the web and server READMEs.
 
-4. Build the project:
+3. Build both projects with a single command:
    ```
    yarn build
    ```
 
-5. Start the web application:
+4. Start both the web application and the server simultaneously:
    ```
    yarn start
    ```
 
-6. Access the web application at: `http://localhost:3000`
+Access the web application at `http://localhost:3000` and the server at `http://localhost:3333`.
 
-### Server
-1. Navigate to the server directory:
-   ```
-   cd apps/server
-   ```
+### Monorepo Scripts
 
-2. Install the dependencies:
-   ```
-   yarn
-   ```
+Here are the scripts that allow you to build and run both parts of the project efficiently:
 
-3. Create a `.env` file in the root of the server directory. Specify the port and origin:
-   ```
-   PORT=[YOUR_PORT]
-   ORIGIN=[YOUR_ORIGIN]
-   ```
-
-4. Build the project:
-   ```
-   yarn build
-   ```
-
-5. Start the server:
-   ```
-   yarn start
-   ```
-
-6. Access the server at: `http://localhost:3333`
+```json
+{
+    "build": "yarn build:server && yarn build:web",
+    "build:server": "yarn workspace @simplerepo/server build",
+    "build:web": "yarn workspace @simplerepo/web build",
+    "start": "concurrently \"yarn start:server\" \"yarn start:web\"",
+    "start:server": "yarn workspace @simplerepo/server start",
+    "start:web": "yarn workspace @simplerepo/web start"
+}
+```
 
 ---
 
 Happy tracking! If you find any issues or have suggestions, please open an issue or submit a pull request.
 
---- 
+---
