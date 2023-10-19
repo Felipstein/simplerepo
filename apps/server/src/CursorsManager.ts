@@ -30,6 +30,10 @@ type RefuseConnectionInfo =
       reason: 'no-user-payload';
     }
   | {
+      reason: 'user-already-connected';
+      username: string;
+    }
+  | {
       reason: 'invalid-user-payload';
       invalidPayload: unknown;
     };
@@ -38,10 +42,15 @@ export function setupCursorsManager() {
   function refuseConnection(socket: Socket, info: RefuseConnectionInfo) {
     const messages: Record<RefuseConnectionInfo['reason'], string> = {
       'no-user-payload': 'A socket connected without user info.',
+      'user-already-connected': 'Username is already connected.',
       'invalid-user-payload': 'A socket connected with invalid user info.',
     };
 
     console.warn('\n', chalk.yellow(`${messages[info.reason]} (socket-id: ${socket.id})`));
+
+    if (info.reason === 'user-already-connected') {
+      console.warn(chalk.yellow('Username:'), chalk.white(info.username));
+    }
 
     if (info.reason === 'invalid-user-payload') {
       console.warn(chalk.yellow('User data received:'), chalk.white(info.invalidPayload));
@@ -104,6 +113,14 @@ export function setupCursorsManager() {
       userPayload = JSON.parse(userPayloadJSON);
 
       userPayload = userPayloadSchema.parse(userPayload);
+
+      const usernamesAlreadyConnected = usersConnected.map((user) => user.getUsername());
+
+      if (usernamesAlreadyConnected.includes(userPayload.username)) {
+        refuseConnection(data, { reason: 'user-already-connected', username: userPayload.username });
+
+        return;
+      }
     } catch {
       refuseConnection(data, { reason: 'invalid-user-payload', invalidPayload: userPayloadJSON });
 
@@ -143,24 +160,6 @@ export function setupCursorsManager() {
         }
 
         return userCursor;
-      });
-
-      const userMap = new Map<string, UserCursorEntity>();
-
-      usersConnected.forEach((userEntity, index) => {
-        const username = userEntity.getUsername();
-
-        if (userEntity.isConnected() && userMap.has(username) && !userMap.get(username)!.isConnected()) {
-          const previousIndex = usersConnected.findIndex((u) => u.getUsername() === username && !u.isConnected());
-
-          if (previousIndex !== -1) {
-            usersConnected.splice(previousIndex, 1);
-          }
-        } else if (!userEntity.isConnected() && userMap.has(username) && userMap.get(username)!.isConnected()) {
-          usersConnected.splice(index, 1);
-        }
-
-        userMap.set(username, userEntity);
       });
 
       updateUsers();
