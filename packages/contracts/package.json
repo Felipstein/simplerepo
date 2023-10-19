@@ -2,14 +2,9 @@
   "name": "@simplerepo/contracts",
   "version": "1.0.0",
   "license": "MIT",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "rm -rf dist && swc src -d dist && tsc"
-  },
-  "exports": {
-    "./http": "./dist/http/index.js",
-    "./types": "./dist/types/index.js",
-    "./http-rest": "./dist/api/http-rest/index.js",
-    "./socket": "./dist/api/socket/index.js"
   },
   "dependencies": {
     "@swc/cli": "^0.1.62",
