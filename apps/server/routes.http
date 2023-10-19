@@ -1,0 +1,7 @@
+# @name testServerHealth
+GET http://localhost:3333
+
+###
+
+# @name downloadUserPositions
+GET http://localhost:3333/users_connected
