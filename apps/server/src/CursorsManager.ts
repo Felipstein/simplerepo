@@ -145,6 +145,24 @@ export function setupCursorsManager() {
         return userCursor;
       });
 
+      const userMap = new Map<string, UserCursorEntity>();
+
+      usersConnected.forEach((userEntity, index) => {
+        const username = userEntity.getUsername();
+
+        if (userEntity.isConnected() && userMap.has(username) && !userMap.get(username)!.isConnected()) {
+          const previousIndex = usersConnected.findIndex((u) => u.getUsername() === username && !u.isConnected());
+
+          if (previousIndex !== -1) {
+            usersConnected.splice(previousIndex, 1);
+          }
+        } else if (!userEntity.isConnected() && userMap.has(username) && userMap.get(username)!.isConnected()) {
+          usersConnected.splice(index, 1);
+        }
+
+        userMap.set(username, userEntity);
+      });
+
       updateUsers();
     });
   });
