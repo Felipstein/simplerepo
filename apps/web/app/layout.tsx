@@ -3,6 +3,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
 
+import { LogoutButton } from '../components/LogoutButton';
 import { NavigateButton } from '../components/NavigateButton';
 import { ShowMoreInfoToggler } from '../components/ShowMoreInfoToggler';
 import { SocketIndicator } from '../components/SocketIndicator';
@@ -23,12 +24,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className="dark">
       <body className={`${inter.className} overflow-hidden`}>
         <Providers>
-          <div className="fixed right-6 top-4 flex items-center gap-8">
+          <div className="fixed right-6 top-4 flex items-center gap-12">
             {/* {process.env.NODE_ENV === 'development' && ( */}
             <ShowMoreInfoToggler />
             {/* )} */}
 
-            <NavigateButton />
+            <div className="flex items-center gap-1.5">
+              <NavigateButton />
+
+              <LogoutButton />
+            </div>
           </div>
 
           {children}

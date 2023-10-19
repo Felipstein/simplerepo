@@ -11,7 +11,7 @@ import { CursorsArea } from './CursorsArea';
 export function SocketConnector() {
   const { user } = useUser();
 
-  const { isConnected, socket, connect } = useSocket();
+  const { isConnected, socket, connect, disconnect } = useSocket();
   const { usersConnected, isDownloading } = useDownloadUsersInfo();
 
   const [isMounted, setIsMounted] = useState(false);
@@ -25,6 +25,9 @@ export function SocketConnector() {
       connect(user);
     }
   }, [connect, user]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => () => disconnect(), []);
 
   if (!isConnected || !socket) {
     return (
