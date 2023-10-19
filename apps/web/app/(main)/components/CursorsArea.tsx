@@ -43,9 +43,7 @@ export function CursorsArea({ socket, initialUserPositions = [], addUserIfMissin
 
   useEffect(() => {
     socket.on('update-users', (data) => {
-      const usersConnectedJSON = data.usersConnected as string;
-
-      const usersConnected = JSON.parse(usersConnectedJSON) as UserConnected[];
+      const usersConnected = data.usersConnected as UserConnected[];
 
       setUsers(usersConnected);
     });

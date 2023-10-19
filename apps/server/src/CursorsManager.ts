@@ -64,7 +64,7 @@ export function setupCursorsManager() {
   function updateUsers(socket: Socket | typeof io = io) {
     const usersConnectedParsed = usersConnected.map((user) => user.toPlainObject());
 
-    socket.emit('update-users', { usersConnected: JSON.stringify(usersConnectedParsed) });
+    socket.emit('update-users', { usersConnected: usersConnectedParsed });
   }
 
   function checkAndCleanDisconnectedUsers() {
