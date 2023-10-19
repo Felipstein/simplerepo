@@ -58,7 +58,7 @@ export function CursorsArea({ socket, initialUserPositions = [], addUserIfMissin
   }
 
   return (
-    <div className="h-full overflow-hidden" onMouseMove={updatePosition} onMouseLeave={removePosition}>
+    <div className="h-full" onMouseMove={updatePosition} onMouseLeave={removePosition}>
       <UsersInfoList users={users} />
 
       {users

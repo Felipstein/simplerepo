@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className="dark">
-      <body className={inter.className}>
+      <body className={`${inter.className} overflow-hidden`}>
         <Providers>
           <div className="fixed right-6 top-4 flex items-center gap-8">
             {/* {process.env.NODE_ENV === 'development' && ( */}

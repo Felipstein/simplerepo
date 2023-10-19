@@ -9,8 +9,8 @@ import { SocketConnector } from './components/SocketConnector';
 export default async function HomePage() {
   const serverIsAlive = await checkServerHealth();
 
-  if(!serverIsAlive) {
-    return <OfflineServerFeedback />
+  if (!serverIsAlive) {
+    return <OfflineServerFeedback />;
   }
 
   const user = getUser();
